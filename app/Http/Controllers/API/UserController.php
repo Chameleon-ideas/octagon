@@ -245,6 +245,8 @@ class UserController extends Controller
         if ($checkUserData) {
             return response()->json(['error' => 'You have already acount!'], $this->successStatus);
         }
+        print_r($input);
+        die();
         $user = User::create($input);
         //dd($user->id);
         $this->sendOtpMail($user->id, $input['mobile'], $input['email'], $input['name']);
@@ -457,7 +459,7 @@ class UserController extends Controller
                         ->where('id', $checkUserActivation->id)
                         ->update($updateArr);
                     $checkDelete = '0';
-                    $loginRequest = User::where(['email' => $input['email'], 'user_type' => '0'])->first();
+                    $loginRequest = User::where(['email' => $input['email']])->first();
                     if (!empty($loginRequest)) {
                         Auth::loginUsingId($loginRequest->id);
                         $user = Auth::user();
