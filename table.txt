@@ -1,0 +1,32 @@
+
+
+
+
+CREATE TABLE `users_group` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `options` text DEFAULT NULL,
+  `dates` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `photo` text DEFAULT NULL,
+  `is_public` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0-Public,1-Private',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `is_deleted` enum('0','1','2') NOT NULL DEFAULT '1' COMMENT '0-Active,1-Inactive,2-Deleted',
+  PRIMARY KEY (`id`)
+)
+
+
+
+
+
+
+CREATE TABLE `users_group_member` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `is_deleted` enum('0','1','2') NOT NULL DEFAULT '1' COMMENT '0-Active,1-Inactive,2-Deleted',
+  PRIMARY KEY (`id`)
+)`

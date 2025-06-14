@@ -11,6 +11,8 @@ use App\Http\Controllers\API\LocationController;
 use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\SportController as ControllersSportController;
 use App\Http\Controllers\API\UserTeamProfileController;
+use App\Http\Controllers\API\UserGroupController;
+use App\Http\Controllers\API\UserGroupMemberController;
 
 /*
   |--------------------------------------------------------------------------
@@ -113,6 +115,16 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('delete-user-post', [UserController::class, 'deleteUserPost']);
     Route::post('notification-list', [NotificationController::class, 'getNotification']);
     Route::post('notification-update', [NotificationController::class, 'updateNotification']);
+
+    Route::post('user-groups-create', [UserGroupController::class, 'saveUserGroup']);
+    Route::post('user-groups-get', [UserGroupController::class, 'getGroup']);
+    Route::post('user-groups-get-by-id', [UserGroupController::class, 'getGroupById']);
+    Route::post('user-groups-update', [UserGroupController::class, 'updateGroup']);
+
+    Route::post('groups-member-create', [UserGroupMemberController::class, 'saveUserGroupMember']);
+    Route::post('groups-member-get', [UserGroupMemberController::class, 'getGroupMember']);
+    Route::post('groups-member-get-by-id', [UserGroupMemberController::class, 'getGroupById']);
+    Route::post('groups-member-delete', [UserGroupMemberController::class, 'deleteGroupMember']);
 
     Route::prefix('team-profiles')->group(function () {
         Route::post('/create', [UserTeamProfileController::class, 'create']);
