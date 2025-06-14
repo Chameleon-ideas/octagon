@@ -245,8 +245,6 @@ class UserController extends Controller
         if ($checkUserData) {
             return response()->json(['error' => 'You have already acount!'], $this->successStatus);
         }
-        print_r($input);
-        die();
         $user = User::create($input);
         //dd($user->id);
         $this->sendOtpMail($user->id, $input['mobile'], $input['email'], $input['name']);
