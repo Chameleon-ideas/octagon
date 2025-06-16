@@ -31,11 +31,11 @@ class UserGroupController extends Controller {
                     return response()->json(['error' => $validator->errors()], 401);
                 }
                 $input = $request->all();
-
+                $userLogin = Auth::user();
                 $BASE_URL = Helper::checkServer()['BASE_URL'];
                 $allowedfileExtension = ['pdf', 'jpg', 'png', 'JPG', 'PNG', 'jpeg', 'gif', 'GIF'];
                 if (!$request->hasFile('photo')) {
-                    $input['photo'] = $user->photo;
+                    $input['photo'] = $userLogin->photo;
                 } else {
                     $photo = $request->file('photo');
                     $extension = $photo->getClientOriginalExtension();
