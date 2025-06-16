@@ -120,6 +120,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('user-groups-get', [UserGroupController::class, 'getGroup']);
     Route::post('user-groups-get-by-id', [UserGroupController::class, 'getGroupById']);
     Route::post('user-groups-update', [UserGroupController::class, 'updateGroup']);
+    Route::post('user-groups-list', [UserController::class, 'userGroupList']);
+    Route::post('user-show-group', [UserGroupController::class, 'showUserGroup']);
 
     Route::post('groups-member-create', [UserGroupMemberController::class, 'saveUserGroupMember']);
     Route::post('groups-member-get', [UserGroupMemberController::class, 'getGroupMember']);

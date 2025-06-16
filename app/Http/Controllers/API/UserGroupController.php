@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserGroup;
+use App\Models\UserGroupMember;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helper;
 use Validator;
@@ -126,5 +127,29 @@ class UserGroupController extends Controller {
 
         $userUpdate->update();
         return response()->json(['success' => $userUpdate], $this->successStatus);
+    }
+
+    public function showUserGroup(Request $request)
+    {
+        $validator = Validator::make($request->all(), []);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+
+        $userLogin = Auth::user();
+
+        // Fetch public and private groups
+        $getPublicGroup = UserGroup::where('is_public', '0')->get()->toArray();
+        $getPrivateGroup = UserGroupMember::where('user_id', $userLogin->id)->get()->toArray();
+
+        // Extract and merge group IDs
+        $publicGroupIds = array_column($getPublicGroup, 'id');
+        $privateGroupIds = array_column($getPrivateGroup, 'group_id');
+        $groupids = array_unique(array_merge($publicGroupIds, $privateGroupIds));
+
+        // Debug output (can be removed in production)
+        $getGroup = UserGroup::whereIn('id', $groupids)->get()->toArray();
+
+        return response()->json(['success' => $getGroup], $this->successStatus);
     }
 }

@@ -26,6 +26,7 @@ use App\Models\Sport;
 use App\Models\Team;
 use App\Models\Notification;
 use App\Models\UserBlock;
+use App\Models\UserGroupMember;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\Helper;
 use Illuminate\Support\Facades\Validator;
@@ -1901,5 +1902,23 @@ class UserController extends Controller
         } else {
             return 1;
         }
+    }
+
+    public function userGroupList(Request $request)
+    {
+        $user = Auth::user();
+        $input = $request->all();
+        $all_users = User::where('id','<>', $user->id)->where('user_type','0')->get()->toArray();
+        $group_id = 0;
+        if (isset($input['group_id']) && trim($input['group_id']) > 0) {
+            $group_id = trim($input['group_id']);
+        }
+        foreach ($all_users as $ukey => $uvalue) {
+                $ismember = UserGroupMember::where('user_id', $uvalue['id'])
+                    ->where('group_id', $group_id)
+                    ->orderBy('created_at', 'desc');
+                $all_users[$ukey]['is_member'] = $ismember->count();
+            }
+        return response()->json(['success' => $all_users], $this->successStatus);
     }
 }
