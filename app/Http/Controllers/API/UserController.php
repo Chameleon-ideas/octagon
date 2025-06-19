@@ -145,7 +145,7 @@ class UserController extends Controller
             return response()->json(['error' => $validator->errors()], 401);
         }
         $checkDelete = '0';
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password'), 'is_deleted' => $checkDelete, 'user_type' => '0'])) {
+        if (Auth::attempt(['email' => request('email'), 'password' => request('password'), 'is_deleted' => $checkDelete])) {
             $user = Auth::user();
             $success['token'] = $user->createToken('MyLaravelApp')->accessToken;
             $success['userId'] = $user->id;
