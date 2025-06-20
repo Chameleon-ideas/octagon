@@ -1035,11 +1035,11 @@ class UserController extends Controller
                 $getUserPostImage = UserPostImageVideo::whereIn('post_id', $userPostIdArr)->orderBy('created_at', 'desc')->get()->toArray();
                 for ($v = 0; $v < count($getUserPostImage); $v++) {
                     if ($getUserPostImage[$v]['file_path']) {
-                        if (file_exists($getUserPostImage[$v]['file_path'])) {
+                        if (isset($getUserPostImage[$v]['file_path'])) {
                             $getUserPostImage[$v]['file_path'] = asset($getUserPostImage[$v]['file_path']);
                         }
 
-                        if (file_exists($getUserPostImage[$v]['thumb_url'])) {
+                        if (isset($getUserPostImage[$v]['thumb_url'])) {
                             $getUserPostImage[$v]['thumb_url'] = asset($getUserPostImage[$v]['thumb_url']);
                         }
                     }
